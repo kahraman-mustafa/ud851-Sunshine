@@ -70,13 +70,16 @@ public final class NetworkUtils {
      */
     public static URL buildUrl(String locationQuery) {
         // Fix this method to return the URL used to query Open Weather Map's API
-        Uri buildUri = Uri.parse(STATIC_WEATHER_URL).buildUpon()
-                .appendQueryParameter(QUERY_PARAM, locationQuery).build();
+        Uri builtUri = Uri.parse(STATIC_WEATHER_URL).buildUpon()
+                .appendQueryParameter(QUERY_PARAM, locationQuery)
+                .appendQueryParameter(FORMAT_PARAM, format)
+                .appendQueryParameter(UNITS_PARAM, units)
+                .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays)).build();
 
         URL queryUrl = null;
 
         try {
-            queryUrl = new URL(queryUrl.toString());
+            queryUrl = new URL(builtUri.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
