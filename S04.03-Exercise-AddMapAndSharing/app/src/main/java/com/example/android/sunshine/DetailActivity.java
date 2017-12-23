@@ -32,9 +32,22 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    public Intent getShareDetailIntent() {
+        String mimetype = getString(R.string.mimetype_text_plain);
+        String title = getString(R.string.title_share_detail);
+        Intent shareDetailIntent = ShareCompat.IntentBuilder.from(this)
+                .setType(mimetype)
+                .setChooserTitle(title)
+                .setText(FORECAST_SHARE_HASHTAG + "\n" + mForecast)
+                .getIntent();
+        return shareDetailIntent;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detail, menu);
+        MenuItem shareMenuItem = menu.findItem(R.id.action_share);
+        shareMenuItem.setIntent(getShareDetailIntent());
         return true;
     }
 
@@ -42,19 +55,6 @@ public class DetailActivity extends AppCompatActivity {
     // COMPLETED (4) Display the menu and implement the forecast sharing functionality
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        int itemId = item.getItemId();
-
-        if(itemId == R.id.action_share) {
-            String mimetype = getString(R.string.mimetype_text_plain);
-            String title = getString(R.string.title_share_detail);
-            ShareCompat.IntentBuilder.from(this)
-                    .setType(mimetype)
-                    .setChooserTitle(title)
-                    .setText(FORECAST_SHARE_HASHTAG + "\n" + mForecast)
-                    .startChooser();
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }

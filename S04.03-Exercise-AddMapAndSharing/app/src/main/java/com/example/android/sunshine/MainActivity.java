@@ -201,6 +201,19 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
         }
     }
 
+    private void openMap() {
+        String location = SunshinePreferences.getPreferredWeatherLocation(this);
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("geo")
+                .path("0,0")
+                .appendQueryParameter("q", location);
+        Uri locationUri = builder.build();
+
+        Intent openMapIntent = new Intent(Intent.ACTION_VIEW, locationUri);
+        startActivity(openMapIntent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         /* Use AppCompatActivity's method getMenuInflater to get a handle on the menu inflater */
@@ -223,16 +236,8 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
 
         // COMPLETED (2) Launch the map when the map menu item is clicked
         if (id == R.id.action_open_map) {
-            String location = SunshinePreferences.getPreferredWeatherLocation(this);
-
-            Uri.Builder builder = new Uri.Builder();
-            builder.scheme("geo")
-                    .path("0,0")
-                    .appendQueryParameter("q", location);
-            Uri locationUri = builder.build();
-
-            Intent openMapIntent = new Intent(Intent.ACTION_VIEW, locationUri);
-            startActivity(openMapIntent);
+            openMap();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
