@@ -308,11 +308,13 @@ public class WeatherProvider extends ContentProvider {
         int numDeleted = 0;
         int match = sUriMatcher.match(uri);
 
+        if (null == selection) selection = "1";
+
         switch (match) {
             case CODE_WEATHER:
                 numDeleted = mOpenHelper.getWritableDatabase()
                         .delete(WeatherContract.WeatherEntry.TABLE_NAME,
-                                null, null);
+                                selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
